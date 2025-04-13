@@ -14,6 +14,7 @@ import (
 var (
 	dbDefault *gorm.DB
 	dbPPOB    *gorm.DB
+	dbPayment *gorm.DB
 )
 
 // InitDBs initializes all database connections.
@@ -45,6 +46,18 @@ func InitDBs() {
 
 	if dbPPOB == nil {
 		panic("❌ dbPPOB is nil, failed to connect to PPOB DB")
+	}
+
+	dbPayment = connectDB(
+		os.Getenv("DB_USER"),
+		os.Getenv("DB_PASSWORD"),
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_PORT"),
+		os.Getenv("DB_PPOB_PAYMENT"),
+	)
+
+	if dbPayment == nil {
+		panic("❌ dbPayment is nil, failed to connect to Payment DB")
 	}
 }
 
@@ -84,4 +97,9 @@ func GetDefaultDB() *gorm.DB {
 // GetPPOBDB returns the PPOB DB instance
 func GetPPOBDB() *gorm.DB {
 	return dbPPOB
+}
+
+// GetPaymentDB returns the Payment DB instance
+func GetPaymentDB() *gorm.DB {
+	return dbPayment
 }

@@ -73,6 +73,9 @@ func main() {
 	// PPOB
 	router.HandleFunc("/api/v1/ppob/transaction-list", controllers.TransactionListPPOB).Methods("GET")
 
+	// Payment
+	router.HandleFunc("/api/v1/payment/transaction-list", controllers.TransactionListPayment).Methods("GET")
+
 	portEnv := os.Getenv("PORT")
 	port := ":" + portEnv
 
