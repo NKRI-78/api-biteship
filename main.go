@@ -7,7 +7,6 @@ import (
 	"os"
 	"superapps/controllers"
 	helper "superapps/helpers"
-	middleware "superapps/middlewares"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -59,123 +58,19 @@ func main() {
 	}
 
 	// Inisialisasi rate limiter: 2 permintaan per menit
-	rateLimiter := middleware.NewRateLimiter(2, 1)
+	// rateLimiter := middleware.NewRateLimiter(2, 1)
 
-	// Administration
-	router.HandleFunc("/api/v1/province", controllers.Province).Methods("GET")
-	router.HandleFunc("/api/v1/city/{province_id}", controllers.City).Methods("GET")
-	router.HandleFunc("/api/v1/district/{city_id}", controllers.District).Methods("GET")
-	router.HandleFunc("/api/v1/subdistrict/{district_id}", controllers.Subdistrict).Methods("GET")
-	router.HandleFunc("/api/v1/country", controllers.Country).Methods("GET")
-
-	// Auth
-	router.Handle("/api/v1/login", rateLimiter.LimitMiddleware(http.HandlerFunc(controllers.Login))).Methods("POST")
-	router.Handle("/api/v1/register", rateLimiter.LimitMiddleware(http.HandlerFunc(controllers.Register))).Methods("POST")
-
-	// Branch
-	router.HandleFunc("/api/v1/branch", controllers.Branch).Methods("GET")
+	// // Auth
+	// router.Handle("/api/v1/login", rateLimiter.LimitMiddleware(http.HandlerFunc(controllers.Login))).Methods("POST")
 
 	// Courier
 	router.HandleFunc("/api/v1/courier-list", controllers.CourierList).Methods("GET")
 	router.HandleFunc("/api/v1/create-location", controllers.CreateLocation).Methods("POST")
 
-	// Document
-	router.HandleFunc("/api/v1/document", controllers.DocumentList).Methods("GET")
-	router.HandleFunc("/api/v1/document-store", controllers.DocumentStore).Methods("POST")
-
-	// Profile
-	router.HandleFunc("/api/v1/profile", controllers.Profile).Methods("GET")
-	router.HandleFunc("/api/v1/profile-update", controllers.ProfileUpdate).Methods("PUT")
-
-	// Otp
-	router.HandleFunc("/api/v1/resend-otp", controllers.ResendOtp).Methods("POST")
-	router.HandleFunc("/api/v1/verify-otp", controllers.VerifyOtp).Methods("POST")
-
-	// Admin
-	router.HandleFunc("/api/v1/admin/job", controllers.AdminJobList).Methods("GET")
-
-	// Apply Job
-	router.HandleFunc("/api/v1/apply/job", controllers.ApplyJob).Methods("POST")
-
-	// Assign Document Apply Job
-	router.HandleFunc("/api/v1/assign/document/apply/job", controllers.AssignDocumentApplyJob).Methods("POST")
-
-	// Update Apply Job
-	router.HandleFunc("/api/v1/update/apply/job", controllers.UpdateApplyJob).Methods("PUT")
-
-	// List Apply Job
-	router.HandleFunc("/api/v1/list/apply/job", controllers.ListApplyJob).Methods("GET")
-
-	// Info Apply Job
-	router.HandleFunc("/api/v1/info/apply/job/{id}", controllers.InfoApplyJob).Methods("GET")
-
-	// Jobs
-	router.HandleFunc("/api/v1/job", controllers.JobList).Methods("GET")
-	router.HandleFunc("/api/v1/job-detail/{id}", controllers.JobDetail).Methods("GET")
-	router.HandleFunc("/api/v1/job-store", controllers.JobStore).Methods("POST")
-	router.HandleFunc("/api/v1/job-favourite", controllers.JobFavourite).Methods("POST")
-	router.HandleFunc("/api/v1/job-categories", controllers.JobCategory).Methods("GET")
-	router.HandleFunc("/api/v1/job-places", controllers.JobPlace).Methods("GET")
-	router.HandleFunc("/api/v1/job-category-count", controllers.JobCategoryCount).Methods("GET")
-
-	// Language
-	router.HandleFunc("/api/v1/language", controllers.Language).Methods("GET")
-
-	// Form Biodata
-	router.HandleFunc("/api/v1/form-biodata", controllers.FormBiodata).Methods("POST")
-	router.HandleFunc("/api/v1/delete-form-biodata", controllers.DeleteFormBiodata).Methods("DELETE")
-
-	// Form Address
-	router.HandleFunc("/api/v1/form-address", controllers.FormAddress).Methods("POST")
-	router.HandleFunc("/api/v1/delete-form-address", controllers.DeleteFormAddress).Methods("DELETE")
-
-	// Form Education
-	router.HandleFunc("/api/v1/form-education", controllers.FormEducation).Methods("POST")
-	router.HandleFunc("/api/v1/delete-form-education", controllers.DeleteFormEducation).Methods("DELETE")
-	router.HandleFunc("/api/v1/update-form-education", controllers.UpdateFormEducation).Methods("PUT")
-
-	// Form Exercise
-	router.HandleFunc("/api/v1/form-exercise", controllers.FormExercise).Methods("POST")
-	router.HandleFunc("/api/v1/delete-form-exercise", controllers.DeleteFormExercise).Methods("DELETE")
-	router.HandleFunc("/api/v1/update-form-exercise", controllers.UpdateFormExercise).Methods("PUT")
-
-	// Form Work
-	router.HandleFunc("/api/v1/form-work", controllers.FormWork).Methods("POST")
-	router.HandleFunc("/api/v1/delete-form-work", controllers.DeleteFormWork).Methods("DELETE")
-	router.HandleFunc("/api/v1/update-form-work", controllers.UpdateFormWork).Methods("PUT")
-
-	// Form Language
-	router.HandleFunc("/api/v1/form-language", controllers.FormLanguage).Methods("POST")
-	router.HandleFunc("/api/v1/delete-form-language", controllers.DeleteFormLanguage).Methods("DELETE")
-	router.HandleFunc("/api/v1/update-form-language", controllers.UpdateFormLanguage).Methods("PUT")
-
-	// Forum
-	router.HandleFunc("/api/v1/forum-store", controllers.ForumStore).Methods("POST")
-	router.HandleFunc("/api/v1/forum-delete", controllers.ForumDelete).Methods("DELETE")
-	router.HandleFunc("/api/v1/forum-list", controllers.ForumList).Methods("GET")
-	router.HandleFunc("/api/v1/forum-type", controllers.ForumCategory).Methods("GET")
-	router.HandleFunc("/api/v1/forum-detail/{id}", controllers.ForumDetail).Methods("GET")
-
-	// Content Comment
-	router.HandleFunc("/api/v1/content/comment", controllers.CreateContentComment).Methods("POST")
-	router.HandleFunc("/api/v1/content/comment/delete", controllers.DeleteContentComment).Methods("DELETE")
-
-	// Content Like
-	router.HandleFunc("/api/v1/content/like", controllers.CreateContentLike).Methods("POST")
-
-	// Content Unlike
-	router.HandleFunc("/api/v1/content/unlike", controllers.CreateContentUnlike).Methods("POST")
-
-	// Media
-	router.HandleFunc("/api/v1/media/upload", controllers.Upload).Methods("POST")
+	// Courier
 
 	portEnv := os.Getenv("PORT")
 	port := ":" + portEnv
-
-	// NOT SECURE FOR USE
-	// server := new(http.Server)
-	// server.Handler = router
-	// server.Addr = ":" + port
 
 	fmt.Println("Starting server at", port)
 
