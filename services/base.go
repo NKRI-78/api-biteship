@@ -1,43 +1,87 @@
 package services
 
 import (
-	helper "superapps/helpers"
 	"fmt"
 	"os"
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
+	helper "superapps/helpers"
+	"time"
+
 	"github.com/joho/godotenv"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
-var db *gorm.DB
+var (
+	dbDefault *gorm.DB
+	dbPPOB    *gorm.DB
+)
 
-func init() {
-
-	env := godotenv.Load()
-
-	if env != nil {
-		helper.Logger("error", "Error getting env")
-	}
-
-	username := os.Getenv("DB_USER")
-	password := os.Getenv("DB_PASSWORD")
-	dbName := os.Getenv("DB_NAME")
-	dbHost := os.Getenv("DB_HOST")
-	dbPort := os.Getenv("DB_PORT")
-	dbDriver := os.Getenv("DB_DRIVER")
-
-	dbURI := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", username, password, dbHost, dbPort, dbName)
-
-	conn, err := gorm.Open(dbDriver, dbURI)
-
+// InitDBs initializes all database connections.
+func InitDBs() {
+	err := godotenv.Load()
 	if err != nil {
-		helper.Logger("error", "In Server: "+err.Error())
+		helper.Logger("error", "Error loading .env file")
 	}
 
-	db = conn
-	db.Debug().AutoMigrate() 
+	dbDefault = connectDB(
+		os.Getenv("DB_USER"),
+		os.Getenv("DB_PASSWORD"),
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_PORT"),
+		os.Getenv("DB_NAME"),
+	)
+
+	if dbDefault == nil {
+		panic("❌ dbDefault is nil, failed to connect to default DB")
+	}
+
+	dbPPOB = connectDB(
+		os.Getenv("DB_USER"),
+		os.Getenv("DB_PASSWORD"),
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_PORT"),
+		os.Getenv("DB_PPOB_NAME"),
+	)
+
+	if dbPPOB == nil {
+		panic("❌ dbPPOB is nil, failed to connect to PPOB DB")
+	}
 }
 
-func GetDB() *gorm.DB {
-	return db
+// connectDB connects to a database using GORM v2 and returns *gorm.DB
+func connectDB(user, pass, host, port, name string) *gorm.DB {
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+		user, pass, host, port, name,
+	)
+
+	conn, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	if err != nil {
+		helper.Logger("error", fmt.Sprintf("Failed to connect to DB (%s): %s", name, err.Error()))
+		return nil
+	}
+
+	// Get the generic DB object
+	sqlDB, err := conn.DB()
+	if err != nil {
+		helper.Logger("error", fmt.Sprintf("Failed to get generic DB instance (%s): %s", name, err.Error()))
+		return nil
+	}
+
+	// Set connection pool settings
+	sqlDB.SetMaxIdleConns(10)
+	sqlDB.SetMaxOpenConns(100)
+	sqlDB.SetConnMaxLifetime(time.Hour)
+
+	helper.Logger("info", fmt.Sprintf("Connected to database: %s", name))
+	return conn
+}
+
+// GetDefaultDB returns the default DB instance
+func GetDefaultDB() *gorm.DB {
+	return dbDefault
+}
+
+// GetPPOBDB returns the PPOB DB instance
+func GetPPOBDB() *gorm.DB {
+	return dbPPOB
 }

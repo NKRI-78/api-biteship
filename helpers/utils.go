@@ -6,20 +6,16 @@ package helper
 
 import (
 	// "math/rand"
-	"bytes"
+
 	crand "crypto/rand"
 	"encoding/base32"
-	"encoding/json"
-	"errors"
 	"fmt"
-	"net/http"
 	"os"
 	"regexp"
 	"strings"
 	"time"
 
 	// "time"
-	entities "superapps/entities"
 
 	"github.com/dgrijalva/jwt-go"
 	"golang.org/x/crypto/bcrypt"
@@ -73,35 +69,6 @@ func FormatDate(t time.Time) string {
 	day := days[t.Weekday().String()]
 	month := months[t.Month().String()]
 	return fmt.Sprintf("%s, %02d %s %d %02d:%02d WIB", day, t.Day(), month, t.Year(), t.Hour(), t.Minute())
-}
-
-func SendEmail(to, app, otp string) error {
-
-	body := otp
-
-	emailData := &entities.SendEmailRequest{
-		To:      to,
-		App:     app,
-		Subject: "Verification Account",
-		Body:    body,
-	}
-
-	jsonData, err := json.Marshal(emailData)
-	if err != nil {
-		return err
-	}
-
-	resp, err := http.Post("https://api-email.inovatiftujuh8.com/api/v1/email", "application/json", bytes.NewBuffer(jsonData))
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		return errors.New("failed to send email, status code: " + resp.Status)
-	}
-
-	return nil
 }
 
 func DecodeJwt(tokenP string) *jwt.Token {

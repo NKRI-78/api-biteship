@@ -7,6 +7,7 @@ import (
 	"os"
 	"superapps/controllers"
 	helper "superapps/helpers"
+	"superapps/services"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -15,6 +16,8 @@ import (
 
 func main() {
 	err := godotenv.Load()
+
+	services.InitDBs()
 
 	if err != nil {
 		helper.Logger("error", "Error getting env")
@@ -67,7 +70,8 @@ func main() {
 	router.HandleFunc("/api/v1/courier-list", controllers.CourierList).Methods("GET")
 	router.HandleFunc("/api/v1/create-location", controllers.CreateLocation).Methods("POST")
 
-	// Courier
+	// PPOB
+	router.HandleFunc("/api/v1/ppob/transaction-list", controllers.TransactionListPPOB).Methods("GET")
 
 	portEnv := os.Getenv("PORT")
 	port := ":" + portEnv
@@ -84,9 +88,4 @@ func main() {
 	if err != nil {
 		fmt.Println("Error starting server:", errListenAndServe)
 	}
-
-	// errs := http.ListenAndServe(port, router)
-	// if errs != nil {
-	// 	fmt.Println("Error starting server:", errs)
-	// }
 }
