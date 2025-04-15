@@ -7,6 +7,7 @@ import (
 	"os"
 	"superapps/controllers"
 	helper "superapps/helpers"
+	middleware "superapps/middlewares"
 	"superapps/services"
 	"time"
 
@@ -25,7 +26,7 @@ func main() {
 
 	router := mux.NewRouter()
 
-	// router.Use(middleware.JwtAuthentication)
+	router.Use(middleware.CorsMiddleware)
 
 	// Check if the directory exists, create if it doesn't
 	errMkidr := os.MkdirAll("public", os.ModePerm) // os.ModePerm ensures directory is created with the correct permissions
@@ -59,13 +60,6 @@ func main() {
 			router.PathPrefix(staticPath).Handler(http.StripPrefix(staticPath, http.FileServer(http.Dir(publicPath))))
 		}
 	}
-
-	// Inisialisasi rate limiter: 2 permintaan per menit
-	// rateLimiter := middleware.NewRateLimiter(2, 1)
-
-	// // Auth
-	// router.Handle("/api/v1/login", rateLimiter.LimitMiddleware(http.HandlerFunc(controllers.Login))).Methods("POST")
-
 	// Courier
 	router.HandleFunc("/api/v1/courier-list", controllers.CourierList).Methods("GET")
 	router.HandleFunc("/api/v1/create-location", controllers.CreateLocation).Methods("POST")
