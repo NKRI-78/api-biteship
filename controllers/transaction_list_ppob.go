@@ -8,9 +8,7 @@ import (
 
 func TransactionListPPOB(w http.ResponseWriter, r *http.Request) {
 
-	app := r.URL.Query().Get("filter-by-app")
-
-	result, err := service.TransactionListPPOB(app)
+	result, err := service.TransactionListPPOB()
 
 	if err != nil {
 		helper.Response(w, 400, true, err.Error(), map[string]any{})

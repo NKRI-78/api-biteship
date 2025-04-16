@@ -7,7 +7,7 @@ import (
 	helper "superapps/helpers"
 )
 
-func TransactionListPPOB(app string) (map[string]any, error) {
+func TransactionListPPOB() (map[string]any, error) {
 
 	var transaction entities.PPOBTransactionListScan
 	var dataTransaction = make([]entities.PPOBTransactionListResponse, 0)
@@ -16,7 +16,6 @@ func TransactionListPPOB(app string) (map[string]any, error) {
 	FROM invoices i 
 	INNER JOIN transactions t ON t.uid = i.transaction_id
 	INNER JOIN apps a ON t.app_id = a.id
-	WHERE a.id LIKE ?
 	`
 
 	if dbPPOB == nil {
@@ -26,7 +25,7 @@ func TransactionListPPOB(app string) (map[string]any, error) {
 	var rows *sql.Rows
 	var err error
 
-	rows, err = dbPPOB.Debug().Raw(query, "%"+app+"%").Rows()
+	rows, err = dbPPOB.Debug().Raw(query).Rows()
 
 	if err != nil {
 		helper.Logger("error", "In Server: "+err.Error())
