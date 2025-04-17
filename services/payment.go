@@ -14,7 +14,7 @@ func TransactionListPayment() (map[string]any, error) {
 
 	query := `SELECT orderId AS order_id, app, grossAmount AS gross_amount, totalAmount AS total_amount, transactionStatus AS transaction_status,
 	createdAt as created_at
-	FROM Payments`
+	FROM Payments ORDER BY createdAt DESC`
 
 	if dbPayment == nil {
 		return nil, errors.New("❌ dbPayment connection is nil")
