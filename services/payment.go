@@ -12,7 +12,7 @@ func TransactionListPayment() (map[string]any, error) {
 	var transaction entities.PaymentTransactionListScan
 	var dataTransaction = make([]entities.PaymentTransactionListResponse, 0)
 
-	query := `SELECT orderId AS order_id, grossAmount AS gross_amount, totalAmount AS total_amount, transactionStatus AS transaction_status,
+	query := `SELECT orderId AS order_id, app, grossAmount AS gross_amount, totalAmount AS total_amount, transactionStatus AS transaction_status,
 	createdAt as created_at
 	FROM Payments`
 
@@ -40,6 +40,7 @@ func TransactionListPayment() (map[string]any, error) {
 		}
 
 		dataTransaction = append(dataTransaction, entities.PaymentTransactionListResponse{
+			App:               transaction.App,
 			OrderId:           transaction.OrderId,
 			GrossAmount:       transaction.GrossAmount,
 			TotalAmount:       transaction.TotalAmount,

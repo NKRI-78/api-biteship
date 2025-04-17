@@ -3,6 +3,7 @@ package entities
 import "time"
 
 type PaymentTransactionListScan struct {
+	App               string    `json:"app"`
 	OrderId           string    `json:"order_id"`
 	GrossAmount       int       `json:"gross_amount"`
 	TotalAmount       int       `json:"total_amount"`
@@ -11,6 +12,7 @@ type PaymentTransactionListScan struct {
 }
 
 type PaymentTransactionListResponse struct {
+	App               string    `json:"app"`
 	OrderId           string    `json:"order_id"`
 	GrossAmount       int       `json:"gross_amount"`
 	TotalAmount       int       `json:"total_amount"`
