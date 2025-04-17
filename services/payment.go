@@ -12,7 +12,8 @@ func TransactionListPayment() (map[string]any, error) {
 	var transaction entities.PaymentTransactionListScan
 	var dataTransaction = make([]entities.PaymentTransactionListResponse, 0)
 
-	query := `SELECT orderId AS order_id, grossAmount AS gross_amount, totalAmount AS total_amount, transactionStatus AS transaction_status 
+	query := `SELECT orderId AS order_id, grossAmount AS gross_amount, totalAmount AS total_amount, transactionStatus AS transaction_status,
+	createdAt as created_atc
 	FROM Payments`
 
 	if dbPayment == nil {
