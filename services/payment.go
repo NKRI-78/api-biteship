@@ -13,7 +13,7 @@ func TransactionListPayment() (map[string]any, error) {
 	var dataTransaction = make([]entities.PaymentTransactionListResponse, 0)
 
 	query := `SELECT orderId AS order_id, grossAmount AS gross_amount, totalAmount AS total_amount, transactionStatus AS transaction_status,
-	createdAt as created_atc
+	createdAt as created_at
 	FROM Payments`
 
 	if dbPayment == nil {
@@ -44,6 +44,7 @@ func TransactionListPayment() (map[string]any, error) {
 			GrossAmount:       transaction.GrossAmount,
 			TotalAmount:       transaction.TotalAmount,
 			TransactionStatus: transaction.TransactionStatus,
+			CreatedAt:         transaction.CreatedAt,
 		})
 	}
 
