@@ -7,14 +7,26 @@ import (
 	helper "superapps/helpers"
 )
 
-func TransactionListPayment() (map[string]any, error) {
+func TransactionListPayment(orderId string) (map[string]any, error) {
 
 	var transaction entities.PaymentTransactionListScan
 	var dataTransaction = make([]entities.PaymentTransactionListResponse, 0)
 
-	query := `SELECT orderId AS order_id, app, grossAmount AS gross_amount, totalAmount AS total_amount, transactionStatus AS transaction_status,
-	createdAt as created_at
-	FROM Payments ORDER BY createdAt DESC`
+	query := `
+		SELECT 
+			orderId AS order_id,
+			app,
+			grossAmount AS gross_amount,
+			totalAmount AS total_amount,
+			transactionStatus AS transaction_status,
+			createdAt AS created_at
+		FROM 
+			Payments
+		WHERE 
+			orderId LIKE ?
+		ORDER BY 
+			createdAt DESC
+	`
 
 	if dbPayment == nil {
 		return nil, errors.New("❌ dbPayment connection is nil")
@@ -23,7 +35,9 @@ func TransactionListPayment() (map[string]any, error) {
 	var rows *sql.Rows
 	var err error
 
-	rows, err = dbPayment.Debug().Raw(query).Rows()
+	likePattern := orderId + "%"
+
+	rows, err = dbPayment.Debug().Raw(query, likePattern).Rows()
 
 	if err != nil {
 		helper.Logger("error", "In Server: "+err.Error())
