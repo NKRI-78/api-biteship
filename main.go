@@ -60,9 +60,11 @@ func main() {
 			router.PathPrefix(staticPath).Handler(http.StripPrefix(staticPath, http.FileServer(http.Dir(publicPath))))
 		}
 	}
+
 	// Courier
 	router.HandleFunc("/api/v1/courier-list", controllers.CourierList).Methods("GET")
 	router.HandleFunc("/api/v1/create-location", controllers.CreateLocation).Methods("POST")
+	router.HandleFunc("/api/v1/rate-by-coordinates", controllers.RateByCoordinate).Methods("POST")
 
 	// PPOB
 	router.HandleFunc("/api/v1/ppob/transaction-list", controllers.TransactionListPPOB).Methods("GET")

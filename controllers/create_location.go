@@ -33,19 +33,19 @@ func CreateLocation(w http.ResponseWriter, r *http.Request) {
 
 	if Name == "" {
 		helper.Logger("error", "In Server: name is required")
-		helper.Response(w, 400, true, "name is required", map[string]interface{}{})
+		helper.Response(w, 400, true, "name is required", map[string]any{})
 		return
 	}
 
 	if ContactName == "" {
 		helper.Logger("error", "In Server: contact_name is required")
-		helper.Response(w, 400, true, "contact_name is required", map[string]interface{}{})
+		helper.Response(w, 400, true, "contact_name is required", map[string]any{})
 		return
 	}
 
 	if ContactPhone == "" {
 		helper.Logger("error", "In Server: contact_phone is required")
-		helper.Response(w, 400, true, "contact_phone is required", map[string]interface{}{})
+		helper.Response(w, 400, true, "contact_phone is required", map[string]any{})
 		return
 	}
 
@@ -57,31 +57,31 @@ func CreateLocation(w http.ResponseWriter, r *http.Request) {
 
 	if Note == "" {
 		helper.Logger("error", "In Server: note is required")
-		helper.Response(w, 400, true, "note is required", map[string]interface{}{})
+		helper.Response(w, 400, true, "note is required", map[string]any{})
 		return
 	}
 
 	if PostalCode == 0 {
 		helper.Logger("error", "In Server: postal_code is required")
-		helper.Response(w, 400, true, "postal_code is required", map[string]interface{}{})
+		helper.Response(w, 400, true, "postal_code is required", map[string]any{})
 		return
 	}
 
 	if Latitude == 0 {
 		helper.Logger("error", "In Server: latitude is required")
-		helper.Response(w, 400, true, "latitude is required", map[string]interface{}{})
+		helper.Response(w, 400, true, "latitude is required", map[string]any{})
 		return
 	}
 
 	if Longitude == 0 {
 		helper.Logger("error", "In Server: latitude is required")
-		helper.Response(w, 400, true, "latitude is required", map[string]interface{}{})
+		helper.Response(w, 400, true, "latitude is required", map[string]any{})
 		return
 	}
 
 	if Type == "" {
 		helper.Logger("error", "In Server: type is required")
-		helper.Response(w, 400, true, "type is required", map[string]interface{}{})
+		helper.Response(w, 400, true, "type is required", map[string]any{})
 		return
 	}
 
@@ -90,7 +90,7 @@ func CreateLocation(w http.ResponseWriter, r *http.Request) {
 	result, err := services.CreateLocation(data)
 
 	if err != nil {
-		helper.Response(w, 400, true, err.Error(), map[string]interface{}{})
+		helper.Response(w, 400, true, err.Error(), map[string]any{})
 		return
 	}
 

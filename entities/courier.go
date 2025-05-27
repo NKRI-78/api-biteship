@@ -77,24 +77,3 @@ type RateByCoordinateItems struct {
 	Value    int    `json:"value"`
 	Quantity int    `json:"quantity"`
 }
-
-// {
-//     "success": true,
-//     "id": "67e385e59ff50e0012f40749",
-//     "name": "Apotik Gambir",
-//     "address": "Jl. Gambir Selatan no 5. Blok F 92. Jakarta Pusat.",
-//     "note": "Dekat tulisan warung Bu Indah",
-//     "coordinate": {
-//         "latitude": -6.232123121,
-//         "longitude": 102.22189911
-//     },
-//     "postal_code": 10110,
-//     "contact_name": "Ahmad",
-//     "contact_phone": "08123456789",
-//     "connected_users": [],
-//     "owned": false,
-//     "status": "active",
-//     "stores": [],
-//     "created_at": "2025-03-26T04:43:17.779Z",
-//     "updated_at": "2025-03-26T04:43:17.779Z"
-// }
