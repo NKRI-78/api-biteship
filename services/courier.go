@@ -206,13 +206,13 @@ func OrderByCoordinate(obc *models.OrderByCoordinate) (map[string]any, error) {
 		return nil, err
 	}
 
-	var orderByCoordinate models.OrderByCoordinate
+	var orderByCoordinateResponse models.OrderByCoordinateResponse
 
-	if err := json.NewDecoder(resp.Body).Decode(&orderByCoordinate); err != nil {
+	if err := json.NewDecoder(resp.Body).Decode(&orderByCoordinateResponse); err != nil {
 		helper.Logger("error", "In Server: Failed to decode response - "+err.Error())
 		return nil, err
 	}
 	return map[string]any{
-		"data": orderByCoordinate,
+		"data": orderByCoordinateResponse,
 	}, nil
 }
