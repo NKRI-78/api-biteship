@@ -12,3 +12,4 @@ type CreateLocationResponse entities.CreateLocationResponse
 type RateByCoordinate entities.RateByCoordinate
 type RateByCoordinateResponse entities.RateByCoordinateResponse
 type OrderByCoordinate entities.OrderByCoordinate
+type OrderByCoordinateResponse entities.OrderByCoordinateResponse

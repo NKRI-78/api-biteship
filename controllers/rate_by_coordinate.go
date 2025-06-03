@@ -56,7 +56,7 @@ func RateByCoordinate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	result, err := services.RateByCoordinates(data)
+	result, err := services.RateByCoordinate(data)
 
 	if err != nil {
 		helper.Response(w, 400, true, err.Error(), map[string]any{})

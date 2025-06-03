@@ -145,28 +145,28 @@ type RateByCoordinateResponsePricing struct {
 }
 
 type OrderByCoordinate struct {
-	ShipperContactName      string                 `json:"shipper_contact_name"`
-	ShipperContactPhone     string                 `json:"shipper_contact_phone"`
-	ShipperContactEmail     string                 `json:"shipper_contact_email"`
-	ShipperOrganization     string                 `json:"shipper_organization"`
-	OriginContactName       string                 `json:"origin_contact_name"`
-	OriginContactPhone      string                 `json:"origin_contact_phone"`
-	OriginAddress           string                 `json:"origin_address"`
-	OriginNote              string                 `json:"origin_note"`
-	OriginCoordinate        OriginCoordinate       `json:"origin_coordinate"`
-	DestinationContactName  string                 `json:"destination_contact_name"`
-	DesinationContactPhone  string                 `json:"destination_contact_phone"`
-	DestinationContactEmail string                 `json:"destination_contact_email"`
-	DestinationAddress      string                 `json:"destination_address"`
-	DestinationNote         string                 `json:"destination_note"`
-	DestinationCoordinate   DestinationCoordinate  `json:"destination_coordinate"`
-	CourierCompany          string                 `json:"courier_company"`
-	CourierType             string                 `json:"courier_type"`
-	CourierInsurance        string                 `json:"courier_insurance"`
-	DeliveryType            string                 `json:"delivery_type"`
-	OrderNote               string                 `json:"order_note"`
-	MetaData                any                    `json:"metadata"`
-	Items                   OrderByCoordinateItems `json:"items"`
+	ShipperContactName      string                   `json:"shipper_contact_name"`
+	ShipperContactPhone     string                   `json:"shipper_contact_phone"`
+	ShipperContactEmail     string                   `json:"shipper_contact_email"`
+	ShipperOrganization     string                   `json:"shipper_organization"`
+	OriginContactName       string                   `json:"origin_contact_name"`
+	OriginContactPhone      string                   `json:"origin_contact_phone"`
+	OriginAddress           string                   `json:"origin_address"`
+	OriginNote              string                   `json:"origin_note"`
+	OriginCoordinate        OriginCoordinate         `json:"origin_coordinate"`
+	DestinationContactName  string                   `json:"destination_contact_name"`
+	DesinationContactPhone  string                   `json:"destination_contact_phone"`
+	DestinationContactEmail string                   `json:"destination_contact_email"`
+	DestinationAddress      string                   `json:"destination_address"`
+	DestinationNote         string                   `json:"destination_note"`
+	DestinationCoordinate   DestinationCoordinate    `json:"destination_coordinate"`
+	CourierCompany          string                   `json:"courier_company"`
+	CourierType             string                   `json:"courier_type"`
+	CourierInsurance        string                   `json:"courier_insurance"`
+	DeliveryType            string                   `json:"delivery_type"`
+	OrderNote               string                   `json:"order_note"`
+	MetaData                any                      `json:"metadata"`
+	Items                   []OrderByCoordinateItems `json:"items"`
 }
 
 type OriginCoordinate struct {
@@ -186,4 +186,119 @@ type OrderByCoordinateItems struct {
 	Value       int    `json:"value"`
 	Quantity    int    `json:"quantity"`
 	Weight      int    `json:"weight"`
+}
+
+type OrderByCoordinateResponse struct {
+	Success     bool                        `json:"success"`
+	Message     string                      `json:"message"`
+	Object      string                      `json:"object"`
+	ID          string                      `json:"id"`
+	Shipper     ShipperOrderByCoordinate    `json:"shipper"`
+	Origin      LocationOrderByCoordinate   `json:"origin"`
+	Destination DestinationOrdeByCoordinate `json:"destination"`
+	Courier     Courier                     `json:"courier"`
+	Delivery    Delivery                    `json:"delivery"`
+	ReferenceID *string                     `json:"reference_id"`
+	Items       []Item                      `json:"items"`
+	Extra       []any                       `json:"extra"`
+	Currency    string                      `json:"currency"`
+	TaxLines    []any                       `json:"tax_lines"`
+	Price       int                         `json:"price"`
+	Metadata    map[string]any              `json:"metadata"`
+	Note        string                      `json:"note"`
+	Status      string                      `json:"status"`
+}
+
+type ShipperOrderByCoordinate struct {
+	Name         string `json:"name"`
+	Email        string `json:"email"`
+	Phone        string `json:"phone"`
+	Organization string `json:"organization"`
+}
+
+type LocationOrderByCoordinate struct {
+	ContactName  string     `json:"contact_name"`
+	ContactPhone string     `json:"contact_phone"`
+	Coordinate   Coordinate `json:"coordinate"`
+	Address      string     `json:"address"`
+	Note         string     `json:"note"`
+	PostalCode   int        `json:"postal_code"`
+}
+
+type DestinationOrdeByCoordinate struct {
+	ContactName     string          `json:"contact_name"`
+	ContactPhone    string          `json:"contact_phone"`
+	ContactEmail    string          `json:"contact_email"`
+	Address         string          `json:"address"`
+	Note            string          `json:"note"`
+	ProofOfDelivery ProofOfDelivery `json:"proof_of_delivery"`
+	CashOnDelivery  CashOnDelivery  `json:"cash_on_delivery"`
+	Coordinate      Coordinate      `json:"coordinate"`
+	PostalCode      int             `json:"postal_code"`
+}
+
+type Coordinate struct {
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
+}
+
+type ProofOfDelivery struct {
+	Use  bool    `json:"use"`
+	Fee  int     `json:"fee"`
+	Note *string `json:"note"`
+	Link *string `json:"link"`
+}
+
+type CashOnDelivery struct {
+	ID             string  `json:"id"`
+	Amount         int     `json:"amount"`
+	AmountCurrency string  `json:"amount_currency"`
+	Fee            int     `json:"fee"`
+	FeeCurrency    string  `json:"fee_currency"`
+	Note           *string `json:"note"`
+	Type           string  `json:"type"`
+}
+
+type CourierOrderByCoordinate struct {
+	TrackingID        string    `json:"tracking_id"`
+	WaybillID         *string   `json:"waybill_id"`
+	Company           string    `json:"company"`
+	Name              *string   `json:"name"`
+	Phone             *string   `json:"phone"`
+	DriverName        *string   `json:"driver_name"`
+	DriverPhone       *string   `json:"driver_phone"`
+	DriverPhotoURL    *string   `json:"driver_photo_url"`
+	DriverPlateNumber *string   `json:"driver_plate_number"`
+	Type              string    `json:"type"`
+	Link              *string   `json:"link"`
+	Insurance         Insurance `json:"insurance"`
+	RoutingCode       *string   `json:"routing_code"`
+}
+
+type Insurance struct {
+	Amount         int    `json:"amount"`
+	AmountCurrency string `json:"amount_currency"`
+	Fee            int    `json:"fee"`
+	FeeCurrency    string `json:"fee_currency"`
+	Note           string `json:"note"`
+}
+
+type Delivery struct {
+	Datetime     string  `json:"datetime"`
+	Note         *string `json:"note"`
+	Type         string  `json:"type"`
+	Distance     float64 `json:"distance"`
+	DistanceUnit string  `json:"distance_unit"`
+}
+
+type Item struct {
+	Name        string  `json:"name"`
+	Description string  `json:"description"`
+	SKU         *string `json:"sku"`
+	Value       int     `json:"value"`
+	Quantity    int     `json:"quantity"`
+	Length      int     `json:"length"`
+	Width       int     `json:"width"`
+	Height      int     `json:"height"`
+	Weight      int     `json:"weight"`
 }
