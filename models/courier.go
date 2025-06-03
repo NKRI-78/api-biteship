@@ -10,3 +10,5 @@ type CourierRate entities.CourierRate
 type CreateLocation entities.CreateLocation
 type CreateLocationResponse entities.CreateLocationResponse
 type RateByCoordinate entities.RateByCoordinate
+type RateByCoordinateResponse entities.RateByCoordinateResponse
+type OrderByCoordinate entities.OrderByCoordinate

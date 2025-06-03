@@ -136,7 +136,14 @@ func RateByCoordinates(rbc *models.RateByCoordinate) (map[string]any, error) {
 		return nil, err
 	}
 
+	var rateByCoordinate models.RateByCoordinateResponse
+
+	if err := json.NewDecoder(resp.Body).Decode(&rateByCoordinate); err != nil {
+		helper.Logger("error", "In Server: Failed to decode response - "+err.Error())
+		return nil, err
+	}
+
 	return map[string]any{
-		"data": "",
+		"data": rateByCoordinate,
 	}, nil
 }

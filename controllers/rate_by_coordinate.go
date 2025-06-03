@@ -5,6 +5,7 @@ import (
 	"net/http"
 	helper "superapps/helpers"
 	"superapps/models"
+	"superapps/services"
 )
 
 func RateByCoordinate(w http.ResponseWriter, r *http.Request) {
@@ -55,6 +56,13 @@ func RateByCoordinate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	result, err := services.RateByCoordinates(data)
+
+	if err != nil {
+		helper.Response(w, 400, true, err.Error(), map[string]any{})
+		return
+	}
+
 	helper.Logger("info", "Rate by Coordinate")
-	helper.Response(w, http.StatusOK, false, "Successfully", nil)
+	helper.Response(w, http.StatusOK, false, "Successfully", result["data"])
 }
