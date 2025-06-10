@@ -4,6 +4,7 @@ import (
 	"superapps/entities"
 )
 
+type CourierPricingResponse entities.CourierPricingResponse
 type Courier entities.Courier
 type CourierData entities.Courier
 type CourierRate entities.CourierRate

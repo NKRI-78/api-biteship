@@ -7,6 +7,7 @@ import (
 )
 
 func CourierList(w http.ResponseWriter, r *http.Request) {
+
 	result, err := service.CourierList()
 
 	if err != nil {

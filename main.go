@@ -63,6 +63,7 @@ func main() {
 
 	// Courier
 	router.HandleFunc("/api/v1/courier-list", controllers.CourierList).Methods("GET")
+	router.HandleFunc("/api/v1/courier-rate-list", controllers.CourierRateList).Methods("GET")
 	router.HandleFunc("/api/v1/create-location", controllers.CreateLocation).Methods("POST")
 	router.HandleFunc("/api/v1/rate-by-coordinate", controllers.RateByCoordinate).Methods("POST")
 

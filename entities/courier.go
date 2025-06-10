@@ -302,3 +302,54 @@ type Item struct {
 	Height      int     `json:"height"`
 	Weight      int     `json:"weight"`
 }
+
+type CourierPricingResponse struct {
+	Success     bool            `json:"success"`
+	Object      string          `json:"object"`
+	Message     string          `json:"message"`
+	Code        int             `json:"code"`
+	Origin      LocationPricing `json:"origin"`
+	Destination LocationPricing `json:"destination"`
+	Pricing     []Pricing       `json:"pricing"`
+}
+
+type LocationPricing struct {
+	LocationID                       string `json:"location_id"`
+	Latitude                         string `json:"latitude"`
+	Longitude                        string `json:"longitude"`
+	PostalCode                       int    `json:"postal_code"`
+	CountryName                      string `json:"country_name"`
+	CountryCode                      string `json:"country_code"`
+	AdministrativeDivisionLevel1Name string `json:"administrative_division_level_1_name"`
+	AdministrativeDivisionLevel1Type string `json:"administrative_division_level_1_type"`
+	AdministrativeDivisionLevel2Name string `json:"administrative_division_level_2_name"`
+	AdministrativeDivisionLevel2Type string `json:"administrative_division_level_2_type"`
+	AdministrativeDivisionLevel3Name string `json:"administrative_division_level_3_name"`
+	AdministrativeDivisionLevel3Type string `json:"administrative_division_level_3_type"`
+	AdministrativeDivisionLevel4Name string `json:"administrative_division_level_4_name"`
+	AdministrativeDivisionLevel4Type string `json:"administrative_division_level_4_type"`
+	Address                          string `json:"address"`
+}
+
+type Pricing struct {
+	AvailableForCashOnDelivery   bool     `json:"available_for_cash_on_delivery"`
+	AvailableForProofOfDelivery  bool     `json:"available_for_proof_of_delivery"`
+	AvailableForInstantWaybillID bool     `json:"available_for_instant_waybill_id"`
+	AvailableForInsurance        bool     `json:"available_for_insurance"`
+	AvailableCollectionMethod    []string `json:"available_collection_method"`
+	Company                      string   `json:"company"`
+	CourierName                  string   `json:"courier_name"`
+	CourierCode                  string   `json:"courier_code"`
+	CourierServiceName           string   `json:"courier_service_name"`
+	CourierServiceCode           string   `json:"courier_service_code"`
+	Currency                     string   `json:"currency"`
+	Description                  string   `json:"description"`
+	Duration                     string   `json:"duration"`
+	ShipmentDurationRange        string   `json:"shipment_duration_range"`
+	ShipmentDurationUnit         string   `json:"shipment_duration_unit"`
+	ServiceType                  string   `json:"service_type"`
+	ShippingType                 string   `json:"shipping_type"`
+	Price                        int      `json:"price"`
+	TaxLines                     []any    `json:"tax_lines"`
+	Type                         string   `json:"type"`
+}
