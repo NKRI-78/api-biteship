@@ -145,6 +145,7 @@ type RateByCoordinateResponsePricing struct {
 }
 
 type OrderByCoordinate struct {
+	Id                      string                   `json:"id"`
 	ShipperContactName      string                   `json:"shipper_contact_name"`
 	ShipperContactPhone     string                   `json:"shipper_contact_phone"`
 	ShipperContactEmail     string                   `json:"shipper_contact_email"`

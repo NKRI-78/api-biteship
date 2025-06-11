@@ -9,6 +9,8 @@ import (
 	"os"
 	helper "superapps/helpers"
 	models "superapps/models"
+
+	uuid "github.com/satori/go.uuid"
 )
 
 func Tracking(getTracking *models.GetTracking) (map[string]any, error) {
@@ -33,8 +35,8 @@ func Tracking(getTracking *models.GetTracking) (map[string]any, error) {
 
 	if resp.StatusCode != http.StatusOK {
 		bodyBytes, _ := ioutil.ReadAll(resp.Body)
-		bodyString := string(bodyBytes)
-		helper.Logger("error", "In Server: API returned status "+bodyString)
+		data := string(bodyBytes)
+		helper.Logger("error", "In Server: API returned status "+data)
 		return map[string]any{
 			"data": []any{},
 		}, nil
@@ -280,6 +282,8 @@ func RateByCoordinate(rbc *models.RateByCoordinate) (map[string]any, error) {
 func OrderByCoordinate(obc *models.OrderByCoordinate) (map[string]any, error) {
 	url := os.Getenv("URL_BITESHIP") + "/v1/orders"
 
+	obc.Id = uuid.NewV4().String()
+
 	payloadData := map[string]any{
 		"shipper_contact_name":  obc.ShipperContactName,
 		"shipper_contact_phone": obc.ShipperContactPhone,
@@ -307,6 +311,24 @@ func OrderByCoordinate(obc *models.OrderByCoordinate) (map[string]any, error) {
 		"delivery_type":   obc.DeliveryType,
 		"order_note":      obc.OrderNote,
 		"items":           obc.Items,
+	}
+
+	query := `INSERT INTO locations (uid, shipper_contact_name, shipper_contact_phone, shipper_contact_email, 
+	shipper_organization, origin_contact_name, origin_contact_phone, origin_address, origin_coordinate_lat, 
+	origin_coordinate_lng, origin_note, destination_contact_name, 
+	destination_contact_phone, destination_contact_email, destination_note, destination_lat, destination_lng, courier_company, courier_type,
+	delivery_type, order_note) 
+	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+
+	err := dbDefault.Debug().Exec(query, obc.ShipperContactName, obc.ShipperContactPhone, obc.ShipperContactEmail, obc.ShipperOrganization,
+		obc.OriginContactName, obc.OriginContactPhone, obc.OriginAddress, obc.OriginCoordinate.Latitude, obc.OriginCoordinate.Longitude,
+		obc.OriginNote, obc.DestinationContactName, obc.DesinationContactPhone, obc.DestinationContactEmail, obc.DestinationNote, obc.DestinationCoordinate.Latitude,
+		obc.DestinationCoordinate.Longitude, obc.CourierCompany, obc.CourierType, obc.DeliveryType, obc.OrderNote,
+	).Error
+
+	if err != nil {
+		helper.Logger("error", "In Server: "+err.Error())
+		return nil, errors.New(err.Error())
 	}
 
 	payload, err := json.Marshal(payloadData)
