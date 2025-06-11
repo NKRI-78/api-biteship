@@ -14,3 +14,5 @@ type RateByCoordinate entities.RateByCoordinate
 type RateByCoordinateResponse entities.RateByCoordinateResponse
 type OrderByCoordinate entities.OrderByCoordinate
 type OrderByCoordinateResponse entities.OrderByCoordinateResponse
+type GetTracking entities.GetTracking
+type Tracking entities.Tracking

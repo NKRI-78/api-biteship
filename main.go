@@ -67,6 +67,9 @@ func main() {
 	router.HandleFunc("/api/v1/create-location", controllers.CreateLocation).Methods("POST")
 	router.HandleFunc("/api/v1/rate-by-coordinate", controllers.RateByCoordinate).Methods("POST")
 
+	// Tracking
+	router.HandleFunc("/api/v1/tracking", controllers.Tracking).Methods("POST")
+
 	// Order
 	router.HandleFunc("/api/v1/order-by-coordinate", controllers.OrderByCoordinate).Methods("POST")
 

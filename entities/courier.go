@@ -353,3 +353,44 @@ type Pricing struct {
 	TaxLines                     []any    `json:"tax_lines"`
 	Type                         string   `json:"type"`
 }
+
+type GetTracking struct {
+	Id string `json:"id"`
+}
+
+type Tracking struct {
+	Success     bool                   `json:"success"`
+	Message     string                 `json:"messsage"`
+	Object      string                 `json:"object"`
+	ID          string                 `json:"id"`
+	WaybillID   string                 `json:"waybill_id"`
+	Courier     TrackingCourierInfo    `json:"courier"`
+	Origin      TrackingLocationInfo   `json:"origin"`
+	Destination TrackingLocationInfo   `json:"destination"`
+	History     []TrackingHistoryEntry `json:"history"`
+	Link        string                 `json:"link"`
+	OrderID     string                 `json:"order_id"`
+	Status      string                 `json:"status"`
+}
+
+type TrackingCourierInfo struct {
+	Company           string `json:"company"`
+	Name              string `json:"name"`  // Deprecated
+	Phone             string `json:"phone"` // Deprecated
+	DriverName        string `json:"driver_name"`
+	DriverPhone       string `json:"driver_phone"`
+	DriverPhotoURL    string `json:"driver_photo_url"`
+	DriverPlateNumber string `json:"driver_plate_number"`
+}
+
+type TrackingLocationInfo struct {
+	ContactName string `json:"contact_name"`
+	Address     string `json:"address"`
+}
+
+type TrackingHistoryEntry struct {
+	Note        string `json:"note"`
+	ServiceType string `json:"service_type"`
+	UpdatedAt   string `json:"updated_at"`
+	Status      string `json:"status"`
+}

@@ -11,6 +11,49 @@ import (
 	models "superapps/models"
 )
 
+func Tracking(getTracking *models.GetTracking) (map[string]any, error) {
+	url := os.Getenv("URL_BITESHIP") + "/v1/trackings/" + getTracking.Id
+
+	req, err := http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		helper.Logger("error", "In Server: Failed to create request - "+err.Error())
+		return nil, err
+	}
+
+	req.Header.Set("Authorization", "Bearer "+os.Getenv("AUTHORIZATION_BITESHIP"))
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		helper.Logger("error", "In Server: Failed to send request - "+err.Error())
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		bodyBytes, _ := ioutil.ReadAll(resp.Body)
+		bodyString := string(bodyBytes)
+		helper.Logger("error", "In Server: API returned status "+bodyString)
+		return map[string]any{
+			"data": []any{},
+		}, nil
+	}
+
+	var tracking models.Tracking
+
+	if err := json.NewDecoder(resp.Body).Decode(&tracking); err != nil {
+		helper.Logger("error", "In Server: Failed to decode response - "+err.Error())
+		return map[string]any{
+			"data": []any{},
+		}, nil
+	}
+
+	return map[string]any{
+		"data": tracking.History,
+	}, nil
+}
+
 func CourierList() (map[string]any, error) {
 
 	url := os.Getenv("URL_BITESHIP") + "/v1/couriers"
