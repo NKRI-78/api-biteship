@@ -13,6 +13,8 @@ type CreateLocationResponse entities.CreateLocationResponse
 type RateByCoordinate entities.RateByCoordinate
 type RateByCoordinateResponse entities.RateByCoordinateResponse
 type OrderByCoordinate entities.OrderByCoordinate
+type OrderInfo entities.OrderInfo
+type OrderInfoResponse entities.OrderInfoResponse
 type OrderByCoordinateResponse entities.OrderByCoordinateResponse
 type GetTracking entities.GetTracking
 type Tracking entities.Tracking

@@ -72,6 +72,7 @@ func main() {
 
 	// Order
 	router.HandleFunc("/api/v1/order-by-coordinate", controllers.OrderByCoordinate).Methods("POST")
+	router.HandleFunc("/api/v1/order-info", controllers.OrderInfo).Methods("POST")
 
 	// PPOB
 	router.HandleFunc("/api/v1/ppob/transaction-list", controllers.TransactionListPPOB).Methods("GET")

@@ -170,6 +170,145 @@ type OrderByCoordinate struct {
 	Items                   []OrderByCoordinateItems `json:"items"`
 }
 
+type OrderInfo struct {
+	Id string `json:"id"`
+}
+
+type OrderInfoResponse struct {
+	Success      bool                  `json:"success"`
+	Message      string                `json:"message"`
+	Object       string                `json:"object"`
+	ID           string                `json:"id"`
+	ShortID      string                `json:"short_id"`
+	Shipper      OrderInfoShipperInfo  `json:"shipper"`
+	Origin       OrderInfoLocation     `json:"origin"`
+	Destination  OrderInfoDestination  `json:"destination"`
+	Delivery     OrderInfoDeliveryInfo `json:"delivery"`
+	Voucher      OrderInfoVoucherInfo  `json:"voucher"`
+	Courier      OrderInfoCourierInfo  `json:"courier"`
+	ReferenceID  *string               `json:"reference_id"`
+	InvoiceID    *string               `json:"invoice_id"`
+	Items        []Item                `json:"items"`
+	Extra        any                   `json:"extra"`
+	Metadata     any                   `json:"metadata"`
+	Tags         []string              `json:"tags"`
+	Note         string                `json:"note"`
+	Currency     string                `json:"currency"`
+	TaxLines     []any                 `json:"tax_lines"`
+	Price        int                   `json:"price"`
+	Status       string                `json:"status"`
+	TicketStatus *string               `json:"ticket_status"`
+}
+
+type OrderInfoShipperInfo struct {
+	Name         string `json:"name"`
+	Email        string `json:"email"`
+	Phone        string `json:"phone"`
+	Organization string `json:"organization"`
+}
+
+type OrderInfoLocation struct {
+	ContactName  string              `json:"contact_name"`
+	ContactPhone string              `json:"contact_phone"`
+	Address      string              `json:"address"`
+	Note         string              `json:"note"`
+	PostalCode   int                 `json:"postal_code"`
+	Coordinate   OrderInfoCoordinate `json:"coordinate"`
+}
+
+type OrderInfoCoordinate struct {
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
+}
+
+type OrderInfoDestination struct {
+	ContactName     string                   `json:"contact_name"`
+	ContactPhone    string                   `json:"contact_phone"`
+	ContactEmail    string                   `json:"contact_email"`
+	Address         string                   `json:"address"`
+	Note            string                   `json:"note"`
+	PostalCode      int                      `json:"postal_code"`
+	Coordinate      OrderInfoCoordinate      `json:"coordinate"`
+	ProofOfDelivery OrderInfoProofOfDelivery `json:"proof_of_delivery"`
+	CashOnDelivery  OrderInfoCashOnDelivery  `json:"cash_on_delivery"`
+}
+
+type OrderInfoProofOfDelivery struct {
+	Use  bool    `json:"use"`
+	Fee  int     `json:"fee"`
+	Note *string `json:"note"`
+	Link *string `json:"link"`
+}
+
+type OrderInfoCashOnDelivery struct {
+	ID             *string `json:"id"`
+	Amount         int     `json:"amount"`
+	AmountCurrency string  `json:"amount_currency"`
+	Fee            int     `json:"fee"`
+	FeeCurrency    string  `json:"fee_currency"`
+	Note           *string `json:"note"`
+	Type           *string `json:"type"`
+}
+
+type OrderInfoDeliveryInfo struct {
+	Datetime     string  `json:"datetime"`
+	Note         *string `json:"note"`
+	Type         string  `json:"type"`
+	Distance     float64 `json:"distance"`
+	DistanceUnit string  `json:"distance_unit"`
+}
+
+type OrderInfoVoucherInfo struct {
+	ID    *string `json:"id"`
+	Name  *string `json:"name"`
+	Value *string `json:"value"`
+	Type  *string `json:"type"`
+}
+
+type OrderInfoCourierInfo struct {
+	TrackingID        string           `json:"tracking_id"`
+	WaybillID         string           `json:"waybill_id"`
+	Company           string           `json:"company"`
+	History           []CourierHistory `json:"history"`
+	Link              string           `json:"link"`
+	Name              string           `json:"name"`  // Deprecated
+	Phone             string           `json:"phone"` // Deprecated
+	DriverName        string           `json:"driver_name"`
+	DriverPhone       string           `json:"driver_phone"`
+	DriverPhotoURL    string           `json:"driver_photo_url"`
+	DriverPlateNumber string           `json:"driver_plate_number"`
+	Type              string           `json:"type"`
+	ShipmentFee       int              `json:"shipment_fee"`
+	Insurance         InsuranceInfo    `json:"insurance"`
+}
+
+type CourierHistory struct {
+	ServiceType string `json:"service_type"`
+	Status      string `json:"status"`
+	Note        string `json:"note"`
+	UpdatedAt   string `json:"updated_at"`
+}
+
+type InsuranceInfo struct {
+	Amount         int     `json:"amount"`
+	AmountCurrency string  `json:"amount_currency"`
+	Fee            int     `json:"fee"`
+	FeeCurrency    string  `json:"fee_currency"`
+	Note           *string `json:"note"`
+}
+
+type OrderInfoItem struct {
+	Name        string  `json:"name"`
+	Description string  `json:"description"`
+	SKU         *string `json:"sku"`
+	Value       int     `json:"value"`
+	Quantity    int     `json:"quantity"`
+	Length      int     `json:"length"`
+	Width       int     `json:"width"`
+	Height      int     `json:"height"`
+	Weight      int     `json:"weight"`
+}
+
 type OriginCoordinate struct {
 	Latitude  float64 `json:"latitude"`
 	Longitude float64 `json:"longitude"`

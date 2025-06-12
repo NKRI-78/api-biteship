@@ -13,6 +13,49 @@ import (
 	uuid "github.com/satori/go.uuid"
 )
 
+func OrderInfo(orderInfo *models.OrderInfo) (map[string]any, error) {
+	url := os.Getenv("URL_BITESHIP") + "/v1/orders/" + orderInfo.Id
+
+	req, err := http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		helper.Logger("error", "In Server: Failed to create request - "+err.Error())
+		return nil, err
+	}
+
+	req.Header.Set("Authorization", "Bearer "+os.Getenv("AUTHORIZATION_BITESHIP"))
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		helper.Logger("error", "In Server: Failed to send request - "+err.Error())
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		bodyBytes, _ := ioutil.ReadAll(resp.Body)
+		data := string(bodyBytes)
+		helper.Logger("error", "In Server: API returned status "+data)
+		return map[string]any{
+			"data": []any{},
+		}, nil
+	}
+
+	var orderInfoResponse models.OrderInfoResponse
+
+	if err := json.NewDecoder(resp.Body).Decode(&orderInfoResponse); err != nil {
+		helper.Logger("error", "In Server: Failed to decode response - "+err.Error())
+		return map[string]any{
+			"data": []any{},
+		}, nil
+	}
+
+	return map[string]any{
+		"data": orderInfoResponse,
+	}, nil
+}
+
 func Tracking(getTracking *models.GetTracking) (map[string]any, error) {
 	url := os.Getenv("URL_BITESHIP") + "/v1/trackings/" + getTracking.Id
 
